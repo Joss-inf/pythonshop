@@ -6,8 +6,8 @@ def rotateImg(dgr:int) ->None:
     if dgr <0 or dgr >360:
         print("error wrong degrees")
         return
-    try:
 
+    try:
         file = 'profil-img.png'
         folder = 'sortie/'
         img = Image.open(file)
@@ -18,4 +18,3 @@ def rotateImg(dgr:int) ->None:
         print(f"Erreur : Le fichier {file} n'a pas été trouvé.")
     except Exception as e:
         print(f"Une erreur s'est produite : {e}")
-rotateImg(60)
