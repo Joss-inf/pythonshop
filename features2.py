@@ -1,6 +1,6 @@
 
 from PIL import Image, ImageFilter, ImageEnhance
-import logger
+#import logger
 
 def apply_watercolor_and_oil_effect(input_file: str, output_file: str):
     """
@@ -35,7 +35,7 @@ def apply_watercolor_and_oil_effect(input_file: str, output_file: str):
 
         # Afficher l'image avec les effets
         img_oil.show()
-        logger.log(f"L'image avec effets aquarelle et huilé a été sauvegardée sous {output_file}")
+        #logger.log(f"L'image avec effets aquarelle et huilé a été sauvegardée sous {output_file}")
 
     except FileNotFoundError:
         print(f"Erreur : Le fichier '{input_file}' n'a pas été trouvé.")
