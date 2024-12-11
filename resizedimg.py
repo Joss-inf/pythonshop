@@ -1,19 +1,21 @@
 from PIL import Image
 
 
-def resizedImg(htr:int,lgr:int) ->None: #hauteur , largeur
-
+def resizedImg(facteur:int) ->None: #hauteur , largeur
+    """permet de redimensionner l'image en fonction du facteur donner en paramètres
+    facteur : facteur de scaling par lequel on va multiplier la longueur et la hauteur de l'image
+    return : l'image modifier en fonction du facteur
+    """
     
     try:
-
+        lgr, htr = img.size * facteur
         file = 'profil-img.png'
-        folder = 'sortie/'
         img = Image.open(file)
-        resized_image = img.resize((htr, lgr))
-        resized_image.save(folder+f'resize{htr,lgr}'+file)
+        return img.resize((lgr, htr))
 
     except FileNotFoundError:
         print(f"Erreur : Le fichier {file} n'a pas été trouvé.")
     except Exception as e:
         print(f"Une erreur s'est produite : {e}")
-rotateImg(60)
+
+
