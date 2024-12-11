@@ -1,20 +1,33 @@
-from PIL import Image
+def rotateImg(img, dgr: int):
+    """
+    Effectue une rotation d'une image selon un nombre de degrés spécifié.
 
+    Cette fonction prend une image et un angle de rotation en degrés, et retourne l'image pivotée. 
+    L'angle de rotation doit être compris entre 0 et 360 degrés. Si l'angle est en dehors de cette plage, 
+    un message d'erreur est affiché.
 
-def rotateImg(dgr:int) ->None:
+    Args:
+        img (PIL.Image.Image): L'image à faire pivoter, sous forme d'objet Image de la bibliothèque Pillow.
+        dgr (int): L'angle de rotation en degrés (doit être entre 0 et 360).
 
-    if dgr <0 or dgr >360:
-        print("error wrong degrees")
+    Returns:
+        PIL.Image.Image: L'image après rotation.
+
+    Raises:
+        FileNotFoundError: Si le fichier d'image spécifié n'a pas été trouvé.
+        Exception: Si une erreur quelconque se produit pendant le traitement de l'image.
+    """
+    # Vérification que l'angle est dans la plage valide
+    if dgr < 0 or dgr > 360:
+        print("Erreur : L'angle doit être compris entre 0 et 360 degrés.")
         return
 
     try:
-        file = 'profil-img.png'
-        folder = 'sortie/'
-        img = Image.open(file)
-        rotated_image = img.rotate(dgr)
-        rotated_image.save(folder+f'rotate_{dgr}dgr_'+file)
-
+        # Appliquer la rotation à l'image
+        return img.rotate(dgr)
     except FileNotFoundError:
-        print(f"Erreur : Le fichier {file} n'a pas été trouvé.")
+        # Gérer l'erreur si l'image n'est pas trouvée
+        print(f"Erreur : Le fichier {img} n'a pas été trouvé.")
     except Exception as e:
+        # Gérer toute autre exception
         print(f"Une erreur s'est produite : {e}")
