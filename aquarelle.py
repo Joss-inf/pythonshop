@@ -2,7 +2,7 @@
 from PIL import Image, ImageFilter, ImageEnhance
 #import logger
 
-def apply_watercolor_and_oil_effect(input_file: str, output_file: str):
+def apply_watercolor_and_oil_effect(img):
     """
     Applique un effet aquarelle et un effet huilé à une image, puis la sauvegarde sous un nouveau nom.
 
@@ -11,7 +11,6 @@ def apply_watercolor_and_oil_effect(input_file: str, output_file: str):
     """
     try:
         # Ouvrir l'image
-        img = Image.open(input_file)
 
         # Étape 1 : Appliquer un flou pour lisser les couleurs
         img_blurred = img.filter(ImageFilter.GaussianBlur(radius=2))
@@ -28,19 +27,7 @@ def apply_watercolor_and_oil_effect(input_file: str, output_file: str):
 
         # Étape 5 : Ajouter un effet huilé (filtre ModeFilter)
         img_oil = img_vibrant.filter(ImageFilter.ModeFilter(size=18))
-
-
-        # Sauvegarder l'image modifiée
-        img_oil.save(output_file)
-
-        # Afficher l'image avec les effets
-        img_oil.show()
-        #logger.log(f"L'image avec effets aquarelle et huilé a été sauvegardée sous {output_file}")
-
-    except FileNotFoundError:
-        print(f"Erreur : Le fichier '{input_file}' n'a pas été trouvé.")
-    except IOError as e:
-        print(f"Erreur lors de l'ouverture ou de la sauvegarde du fichier : {e}")
+        return img_oil
     except Exception as e:
         print(f"Une erreur inattendue s'est produite : {e}")
 
