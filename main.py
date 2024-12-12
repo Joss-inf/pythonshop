@@ -2,8 +2,11 @@ import os  # Pour la gestion des fichiers et dossiers
 import sys  # Pour lire les arguments passés en ligne de commande
 import grayFilter as gf  # Module custom pour appliquer un filtre gris
 import rotateFilter as rf  # Module custom pour appliquer une rotation
+import dilateEffect as de #Module custom pour appliquer un filtre de dilatation
+import aquarelle as aqua #Module custom pour appliquer un filtre aquarelle
+import bluring as b #Module custom pour appliquer un
 import logger as l  # Module custom pour enregistrer les logs
-from PIL import Image, ImageFilter  # PIL pour le traitement des images
+from PIL import Image # PIL pour le traitement des images
 
 def help():
     return print(
@@ -17,6 +20,7 @@ def help():
                           - text:TXT     : Ajoute le texte TXT sur l'image.
                           - dilate:N     : Applique un effet de dilatation avec une taille N.
                           - scale:N      : Redimensionne l'image avec un facteur de N.
+                          -aquarelle    : applique un filtre aquarelle sur l'image
 
   --i INPUT/            Spécifie le dossier source contenant les images à traiter.
                         Exemple : --i input/
@@ -67,18 +71,33 @@ def apply_filters(image, filters):
                 # Gestion d'erreur si l'angle n'est pas un entier valide
                 print(f"Erreur : Angle invalide pour le filtre '{filter_action}'.")
 
-        elif filter_action == "text":
-            # ajouter du text à l'image
-            image = image
+        elif filter_action.startswith("text:"):
+            # Applique du text si le filtre commence par "text:"
+            try:
+                text = str(filter_action.split(":")[1])  # Extraction du text
+                #image = tf.textFilter(image, dgr)  # Application du text
+                l.log(f"text filter applied to {image} with text :{text}")
+            except ValueError:
+                # Gestion d'erreur si le text n'est pas un entier valide
+                print(f"Erreur : text invalide pour le filtre '{filter_action}'.")
 
-        elif filter_action == "sharpen":
-            # Applique un filtre de netteté
-            image = image.filter(ImageFilter.SHARPEN)
+        elif filter_action == "blur":
+            # Applique un filtre de flou
+            image = b.bluring(image)
 
-        elif filter_action == "dilate":
-            # Applique un effet de dilatation
-            image = image.filter(ImageFilter.MaxFilter(size=3))
-
+        elif filter_action.startswith("dilate:"):
+            # Applique un effet de dilatation si le filtre commence par "dilate:"
+            try:
+                k = int(filter_action.split(":")[1])  # Extraction de la taille k
+                image = de.apply_dilate_effect(image,k) # application de la dilatation
+            except ValueError:
+                # Gestion d'erreur si le text n'est pas un entier valide
+                print(f"Erreur : k invalide pour le filtre '{filter_action}'.")
+        elif filter_action == "aquarelle":
+            image = aqua.apply_watercolor_and_oil_effect(image)
+            l.log(f"aqua filter applied to {image}")
+        elif filter_action == "gif":
+            image
         else:
             # Message d'erreur si un filtre est inconnu
             print(f"Filtre inconnu : {filter_action}")
@@ -105,14 +124,15 @@ def process_images(input_dir, output_dir, filters):
                 image = Image.open(img_path)  # Charge l'image
 
                 modified_image = apply_filters(image, filters)  # Applique les filtres
+                base_name, ext = os.path.splitext(filename)  # Sépare le nom de base et l'extension
+                #on renomme l'image en ajourant le mot "modified"
+                new_name = f"{base_name}_modified{ext}"
 
-                output_path = os.path.join(output_dir, filename)  # Chemin complet de sortie
-                modified_image.save("modified_"+output_path)  # Sauvegarde l'image modifiée
+                output_path = os.path.join(output_dir, new_name)  # Chemin complet de sortie
+                modified_image.save(output_path)  # Sauvegarde l'image modifiée
             except Exception as e:
                 # Gestion des exceptions pendant le traitement de l'image
                 print(f"Erreur lors du traitement de l'image {filename} : {e}")
-    print(f"Image(s) sauvegardée(s) : {output_path}")
-
 
 def read_config_file(config_file):
     """
@@ -150,11 +170,11 @@ def main()->None:
     Point d'entrée principal pour la CLI.
     Lit les arguments de la ligne de commande et exécute les actions appropriées.
     """
-    if sys.argv[1] != "image-filter":
+    if len(sys.argv) <= 2 or  str(sys.argv[1]) != "image-filter":
         print("wrong command, refer to ->image-filter --help<-")
         return
-    a2 = sys.argv[2]  # Premier argument de la ligne de commande
-    if a2 == "--filters" and sys.argv[4] == "--i" and sys.argv[6] == "--o":
+    a2 = str(sys.argv[2])  # Premier argument de la ligne de commande
+    if  len(sys.argv) == 8 and a2 == "--filters"  and sys.argv[4] == "--i" and sys.argv[6] == "--o":
         # Cas où les arguments sont correctement structurés
         filters = sys.argv[3]  # Récupère les filtres
         infold = sys.argv[5]  # Dossier source
