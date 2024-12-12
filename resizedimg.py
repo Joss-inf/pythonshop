@@ -1,21 +1,35 @@
 from PIL import Image
+import logger
 
+from PIL import Image
 
-def resizedImg(facteur:int) ->None: #hauteur , largeur
-    """permet de redimensionner l'image en fonction du facteur donner en paramètres
-    facteur : facteur de scaling par lequel on va multiplier la longueur et la hauteur de l'image
-    return : l'image modifier en fonction du facteur
+def resizedImg(img, facteur: int):
     """
+    Redimensionne l'image en fonction du facteur donné en paramètres.
     
+    Args:
+        img (Image): L'image à redimensionner.
+        facteur (int): Le facteur de mise à l'échelle (par exemple, 2 pour doubler la taille).
+    
+    Returns:
+        Image: L'image redimensionnée en fonction du facteur.
+    """
     try:
-        lgr, htr = img.size * facteur
-        file = 'profil-img.png'
-        img = Image.open(file)
-        return img.resize((lgr, htr))
+        # Obtenir les dimensions actuelles de l'image
+        lgr, htr = img.size
 
-    except FileNotFoundError:
-        print(f"Erreur : Le fichier {file} n'a pas été trouvé.")
+        # Calculer les nouvelles dimensions après application du facteur
+        lgr, htr = int(lgr * facteur), int(htr * facteur)
+
+        # Appliquer le redimensionnement
+        resized_image = img.resize((lgr, htr))
+        # Log ou message pour indiquer le changement de taille
+        logger.log(f"Image redimensionnée avec un facteur de : {facteur}")
+        return resized_image
+
     except Exception as e:
-        print(f"Une erreur s'est produite : {e}")
+        print(f"Une erreur s'est produite lors du redimensionnement de l'image : {e}")
+        return None
+
 
 
