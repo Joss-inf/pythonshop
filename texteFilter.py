@@ -1,26 +1,36 @@
-from PIL import Image, ImageDraw, ImageFont
+from PIL import ImageDraw, ImageFont
+def textFilter(image, text):
+    """
+    Ajoute du texte sur une image existante et sauvegarde l'image modifiée.
 
-# Charger votre image existante
-image_path = "entrée/KAARIS OR NOIR.jpg"  # Remplacez par le chemin de votre image
-image = Image.open(image_path)
+    Args:
+        image_path (str): Le chemin de l'image source à modifier.
+        texte (str): Le texte à ajouter sur l'image.
+        position (tuple): Position (x, y) où le texte sera ajouté sur l'image.
+        output_path (str): Le chemin pour sauvegarder l'image modifiée.
+        couleur (tuple, optional): La couleur du texte en format RGB. Par défaut noir (0, 0, 0).
+        taille_police (int, optional): La taille de la police du texte. Par défaut 40.
+        police (str, optional): Le chemin ou le nom du fichier de police TrueType (.ttf). Par défaut "arial.ttf".
 
-# Créer un objet de dessin pour manipuler l'image
-draw = ImageDraw.Draw(image)
+    Returns:
+        image
 
-# Définir le texte à ajouter
-text = "UwU"
-position = (100, 200)  # Position où le texte sera ajouté (x, y)
+    Note:
+        FileNotFoundError: Si le fichier d'image ou de police spécifié est introuvable.
+        OSError: Si une erreur se produit lors de l'ouverture ou de la sauvegarde de l'image.
+    """
 
-# Charger une police
-try:
-    font = ImageFont.truetype("arial.ttf", 40)  # Spécifiez le fichier de police .ttf
-except IOError:
-    font = ImageFont.load_default()  # Utiliser une police par défaut si la police personnalisée n'est pas trouvée
+    #Créer un objet de dessin pour manipuler l'image
+    draw = ImageDraw.Draw(image)
 
-# Ajouter le texte sur l'image
-text_color = (255, 150, 255)  # Couleur du texte en RGB (ici rouge)
-draw.text(position, text, fill=text_color, font=font)
+    #Définir le texte à ajouter
+    position = (100, 200)  #Position où le texte sera ajouté (x, y)
 
-# Sauvegarder ou afficher l'image modifiée
-image.show()  # Affiche l'image dans une visionneuse
-image.save("KAKAKAKAKAKAKRIS.jpg")  # Sauvegarde l'image modifiée
+    try:
+        font = ImageFont.truetype("arial.ttf", 50)
+    except IOError:
+        font = ImageFont.load_default()  #Utiliser une police par défaut si la police personnalisée n'est pas trouvée
+
+    text_color = (255, 150, 255)
+    draw.text(position, text, fill=text_color, font=font)
+    return image
