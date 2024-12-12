@@ -67,9 +67,9 @@ def apply_filters(image, filters):
                 # Gestion d'erreur si l'angle n'est pas un entier valide
                 print(f"Erreur : Angle invalide pour le filtre '{filter_action}'.")
 
-        elif filter_action == "blur":
-            # Applique un flou à l'image
-            image = image.filter(ImageFilter.BLUR)
+        elif filter_action == "text":
+            # ajouter du text à l'image
+            image = image
 
         elif filter_action == "sharpen":
             # Applique un filtre de netteté
@@ -107,11 +107,43 @@ def process_images(input_dir, output_dir, filters):
                 modified_image = apply_filters(image, filters)  # Applique les filtres
 
                 output_path = os.path.join(output_dir, filename)  # Chemin complet de sortie
-                modified_image.save(output_path)  # Sauvegarde l'image modifiée
-                print(f"Image sauvegardée : {output_path}")
+                modified_image.save("modified_"+output_path)  # Sauvegarde l'image modifiée
             except Exception as e:
                 # Gestion des exceptions pendant le traitement de l'image
                 print(f"Erreur lors du traitement de l'image {filename} : {e}")
+    print(f"Image(s) sauvegardée(s) : {output_path}")
+
+
+def read_config_file(config_file):
+    """
+    Lit les paramètres d'un fichier de configuration.
+
+    Parameters:
+    - config_file (str): Chemin vers le fichier de configuration.
+    Exemple de fichier de configuration (--config) :
+     filters=gray&blur
+     input=input/
+     output=output/
+
+    Returns:
+    - Un dictionnaire contenant les paramètres (filters, input, output).
+    """
+    # Initialisation d'un dictionnaire `config` avec des clés par défaut et des valeurs vides.
+    config = {"filters": "", "input": "", "output": ""}
+    try:
+        # Tentative d'ouverture du fichier spécifié par `config_file` en mode lecture.
+        with open(config_file, "r") as file:
+            # Parcours de chaque ligne du fichier.
+            for line in file:
+                # Séparation de la ligne en deux parties : clé et valeur, en supposant qu'elles sont séparées par un "=".
+                key, value = line.strip().split("=")
+                # Suppression des espaces inutiles et ajout de la paire clé-valeur dans le dictionnaire `config`.
+                config[key.strip()] = value.strip()
+    except FileNotFoundError:
+        print(f"Erreur : Le fichier {config_file} n'existe pas.")
+    except Exception as e:
+        print(f"Une erreur s'est produite lors de la lecture du fichier {config_file} : {e}")
+    return config
 
 def main()->None:
     """
@@ -136,10 +168,18 @@ def main()->None:
         return
 
     elif a2 == "--config":
-        # Cas où l'utilisateur passe une configuration
-        text_config = sys.argv[2]  # Lecture d'un fichier de config (non implémenté ici)
-        print(f"Configuration chargée : {text_config}")
-        return
-    print("wrong command, refer to ->image-filter --help<-")
+        if len(sys.argv) < 4:
+            print("Erreur : Aucun fichier de configuration spécifié.")
+            return
+        config_file = sys.argv[2]
+        config = read_config_file(config_file)
+        if not all(config.values()):
+            print("Erreur : Le fichier de configuration est incomplet.")
+            return
+        process_images(config["input"], config["output"], config["filters"])
+    else:
+        print("Commande invalide. Utilisez '--help' pour plus d'informations.")
+
+
 if __name__ == "__main__":
     main()  # Lance le programme
