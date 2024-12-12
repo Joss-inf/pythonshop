@@ -1,0 +1,3 @@
+filters=gray&blur
+input=entrée/
+output=sortie/
