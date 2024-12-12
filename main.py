@@ -5,6 +5,7 @@ import rotateFilter as rf  # Module custom pour appliquer une rotation
 import dilateEffect as de #Module custom pour appliquer un filtre de dilatation
 import aquarelle as aqua #Module custom pour appliquer un filtre aquarelle
 import bluring as b #Module custom pour appliquer un
+import texteFilter as txt #Module custom pour ajouter du texte
 import logger as l  # Module custom pour enregistrer les logs
 from PIL import Image # PIL pour le traitement des images
 
@@ -75,7 +76,7 @@ def apply_filters(image, filters):
             # Applique du text si le filtre commence par "text:"
             try:
                 text = str(filter_action.split(":")[1])  # Extraction du text
-                #image = tf.textFilter(image, dgr)  # Application du text
+                image = txt.textFilter(image, text)  # Application du text
                 l.log(f"text filter applied to {image} with text :{text}")
             except ValueError:
                 # Gestion d'erreur si le text n'est pas un entier valide
