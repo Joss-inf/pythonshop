@@ -204,7 +204,7 @@ def main()->None:
         if len(sys.argv) < 4:
             print("Erreur : Aucun fichier de configuration spécifié.")
             return
-        config_file = sys.argv[2]
+        config_file = sys.argv[3]
         config = read_config_file(config_file)
         if not all(config.values()):
             print("Erreur : Le fichier de configuration est incomplet.")
