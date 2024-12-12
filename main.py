@@ -107,7 +107,7 @@ def process_images(input_dir, output_dir, filters):
                 modified_image = apply_filters(image, filters)  # Applique les filtres
 
                 output_path = os.path.join(output_dir, filename)  # Chemin complet de sortie
-                modified_image.save(output_path)  # Sauvegarde l'image modifiée
+                modified_image.save("modified_"+output_path)  # Sauvegarde l'image modifiée
             except Exception as e:
                 # Gestion des exceptions pendant le traitement de l'image
                 print(f"Erreur lors du traitement de l'image {filename} : {e}")
@@ -128,11 +128,16 @@ def read_config_file(config_file):
     Returns:
     - Un dictionnaire contenant les paramètres (filters, input, output).
     """
+    # Initialisation d'un dictionnaire `config` avec des clés par défaut et des valeurs vides.
     config = {"filters": "", "input": "", "output": ""}
     try:
+        # Tentative d'ouverture du fichier spécifié par `config_file` en mode lecture.
         with open(config_file, "r") as file:
+            # Parcours de chaque ligne du fichier.
             for line in file:
+                # Séparation de la ligne en deux parties : clé et valeur, en supposant qu'elles sont séparées par un "=".
                 key, value = line.strip().split("=")
+                # Suppression des espaces inutiles et ajout de la paire clé-valeur dans le dictionnaire `config`.
                 config[key.strip()] = value.strip()
     except FileNotFoundError:
         print(f"Erreur : Le fichier {config_file} n'existe pas.")
@@ -174,8 +179,6 @@ def main()->None:
         process_images(config["input"], config["output"], config["filters"])
     else:
         print("Commande invalide. Utilisez '--help' pour plus d'informations.")
-
-
 
 
 if __name__ == "__main__":
