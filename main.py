@@ -6,6 +6,7 @@ import dilateEffect as de #Module custom pour appliquer un filtre de dilatation
 import aquarelle as aqua #Module custom pour appliquer un filtre aquarelle
 import bluring as b #Module custom pour appliquer un
 import texteFilter as txt #Module custom pour ajouter du texte
+import GIF #Module custom pour crée des gifs
 import logger as l  # Module custom pour enregistrer les logs
 from PIL import Image # PIL pour le traitement des images
 
@@ -22,6 +23,7 @@ def help():
                           - dilate:N     : Applique un effet de dilatation avec une taille N.
                           - scale:N      : Redimensionne l'image avec un facteur de N.
                           -aquarelle    : applique un filtre aquarelle sur l'image
+    --gif pour générer des gifs , --i dossier d'entrée/ , --o dossier de sortie/ avec le nom du gif
 
   --i INPUT/            Spécifie le dossier source contenant les images à traiter.
                         Exemple : --i input/
@@ -29,8 +31,8 @@ def help():
   --o OUTPUT/           Spécifie le dossier où sauvegarder les images modifiées.
                         Exemple : --o output/
 
-  --config CONFIG_FILE  Spécifie un fichier de configuration contenant les paramètres 
-                        des filtres et des dossiers. Le fichier doit être au format texte, 
+  --config CONFIG_FILE  Spécifie un fichier de configuration contenant les paramètres
+                        des filtres et des dossiers. Le fichier doit être au format texte,
                         avec une ligne par option (exemple ci-dessous).
 
   --help                Affiche cette aide.
@@ -182,7 +184,10 @@ def main()->None:
         outfold = sys.argv[7]  # Dossier destination
         process_images(infold, outfold, filters)  # Applique le traitement
         return
-
+    elif len(sys.argv) == 7 and a2 == "--gif" and sys.argv[3] == "--i" and sys.argv[5] == "--o":
+        infold = sys.argv[4]
+        outfold = sys.argv[6]
+        GIF.creer_gif(infold, outfold)
     elif a2 == "--help":
         # Cas où l'utilisateur demande l'aide
         help()
