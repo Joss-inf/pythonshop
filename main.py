@@ -6,6 +6,7 @@ import dilateEffect as de #Module custom pour appliquer un filtre de dilatation
 import aquarelle as aqua #Module custom pour appliquer un filtre aquarelle
 import bluring as b #Module custom pour appliquer un
 import texteFilter as txt #Module custom pour ajouter du texte
+import resizedimg as r #Module custom pour redimensionner
 import GIF #Module custom pour crée des gifs
 import logger as l  # Module custom pour enregistrer les logs
 from PIL import Image # PIL pour le traitement des images
@@ -99,8 +100,14 @@ def apply_filters(image, filters):
         elif filter_action == "aquarelle":
             image = aqua.apply_watercolor_and_oil_effect(image)
             l.log(f"aqua filter applied to {image}")
-        elif filter_action == "gif":
-            image
+        elif filter_action.startswith("scale:"):
+            # Applique un effet de dilatation si le filtre commence par "dilate:"
+            try:
+                k = float(filter_action.split(":")[1])  # Extraction de la mise à l'échelle
+                image = r.resizedImg(image,k)
+            except ValueError:
+                # Gestion d'erreur si le text n'est pas un entier valide
+                print(f"Erreur : scale invalide pour le filtre '{filter_action}'.")
         else:
             # Message d'erreur si un filtre est inconnu
             print(f"Filtre inconnu : {filter_action}")
