@@ -1,7 +1,6 @@
-from PIL import Image
 import logger
 
-from PIL import Image
+
 
 def resizedImg(img, facteur: int):
     """

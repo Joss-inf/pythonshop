@@ -2,12 +2,6 @@ from PIL import Image
 import logger
 import os
 
-import os
-from PIL import Image
-
-import os
-from PIL import Image
-
 def creer_gif(chemin_entrée, chemin_sortie, taille=(300, 300)):
     """
     Crée un GIF à partir des images d'un dossier, en redimensionnant les images à une taille commune.

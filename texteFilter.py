@@ -1,5 +1,6 @@
 from PIL import ImageDraw, ImageFont
 def textFilter(image, text):
+    text = str(text)
     """
     Ajoute du texte sur une image existante et sauvegarde l'image modifiée.
 
