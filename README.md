@@ -31,6 +31,7 @@ Après chaque modification, l'image mise à jour sera automatiquement sauvegard�
 ### Manipulation d'images
 - **Rotation** : Faites pivoter vos images dans n'importe quelle direction.
 - **Découpe et redimensionnement** : Ajustez la taille et le cadrage de vos photos à vos besoins.
+- **Ajout de texte** : Un petit texte ecris sur l'image.
 
 ---
 
