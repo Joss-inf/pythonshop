@@ -25,7 +25,8 @@ Après chaque modification, l'image mise à jour sera automatiquement sauvegard�
 ### Filtres disponibles
 - **Flou** : Adoucissez les contours pour un effet artistique ou professionnel.
 - **Monochrome** : Transformez vos images en noir et blanc intemporels.
-- **Aquarelle** : Donnez à vos photos une touche de peinture artistique
+- **Aquarelle** : Donnez à vos photos une touche de peinture artistique.
+- **Dilatation**: Elargissez vos images sans changer les dimmensions.
 
 ### Manipulation d'images
 - **Rotation** : Faites pivoter vos images dans n'importe quelle direction.
