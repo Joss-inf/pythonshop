@@ -12,7 +12,6 @@ Avec notre éditeur de photos, vous pouvez :
   - **Monochrome**
   - **Aquarelle**
   - **Dilatation**
-  - **Noir et Blanc**
 - Faire pivoter l'image sélectionnée.
 - Découper ou redimensionner vos images.
 - Écrire sur l'image.
@@ -26,8 +25,7 @@ Après chaque modification, l'image mise à jour sera automatiquement sauvegard�
 ### Filtres disponibles
 - **Flou** : Adoucissez les contours pour un effet artistique ou professionnel.
 - **Monochrome** : Transformez vos images en noir et blanc intemporels.
-- **Aquarelle** : Donnez à vos photos une touche de peinture artistique.
-- **Noir et Blanc** : Convertit l'image en niveaux de gris.
+- **Aquarelle** : Donnez à vos photos une touche de peinture artistique
 
 ### Manipulation d'images
 - **Rotation** : Faites pivoter vos images dans n'importe quelle direction.
